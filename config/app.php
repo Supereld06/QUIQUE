@@ -1,6 +1,6 @@
 <?php
 
-	const APP_URL="http://localhost/QUIQUE/";
+	define("APP_URL", "http://" . $_SERVER['HTTP_HOST'] . "/QUIQUE/");
 	const APP_NAME="QuiQue Micromarket";
 	const APP_SESSION_NAME="POS";
 

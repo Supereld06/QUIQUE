@@ -1,32 +1,35 @@
 /*=====================================================
                     Tipografia
 ======================================================*/
-@font-face{
+@font-face {
     font-family: "RobotoCondensedLight";
-    src: url("../webfonts/robotocondensed-light.ttf"), 
-    url("../webfonts/robotocondensed-light.eot"), 
-    url("../webfonts/robotocondensed-light.woff"), 
-    url("../webfonts/robotocondensed-light.woff2"), 
-    url("../webfonts/robotocondensed-light.svg");
-}
-@font-face{
-    font-family: "RobotoRegular";
-    src: url("../webfonts/roboto-regular.ttf"), 
-    url("../webfonts/roboto-regular.eot"), 
-    url("../webfonts/roboto-regular.woff"), 
-    url("../webfonts/roboto-regular.woff2"), 
-    url("../webfonts/roboto-regular.svg");
-}
-@font-face{
-    font-family: "OswaldLight";
-    src: url("../webfonts/oswald-light.ttf"), 
-    url("../webfonts/oswald-light.eot"), 
-    url("../webfonts/oswald-light.woff"), 
-    url("../webfonts/oswald-light.woff2"), 
-    url("../webfonts/oswald-light.svg");
+    src: url("../webfonts/robotocondensed-light.ttf"),
+        url("../webfonts/robotocondensed-light.eot"),
+        url("../webfonts/robotocondensed-light.woff"),
+        url("../webfonts/robotocondensed-light.woff2"),
+        url("../webfonts/robotocondensed-light.svg");
 }
 
-body,html{
+@font-face {
+    font-family: "RobotoRegular";
+    src: url("../webfonts/roboto-regular.ttf"),
+        url("../webfonts/roboto-regular.eot"),
+        url("../webfonts/roboto-regular.woff"),
+        url("../webfonts/roboto-regular.woff2"),
+        url("../webfonts/roboto-regular.svg");
+}
+
+@font-face {
+    font-family: "OswaldLight";
+    src: url("../webfonts/oswald-light.ttf"),
+        url("../webfonts/oswald-light.eot"),
+        url("../webfonts/oswald-light.woff"),
+        url("../webfonts/oswald-light.woff2"),
+        url("../webfonts/oswald-light.svg");
+}
+
+body,
+html {
     height: 100%;
     width: 100%;
     margin: 0;
@@ -37,7 +40,7 @@ body,html{
     background-color: #afacac;
 }
 
-.main-container{
+.main-container {
     height: 100%;
     width: 100%;
     display: flex;
@@ -46,49 +49,58 @@ body,html{
     background-image: url(../img/fondo.png);
     background-size: 1900px;
     background-repeat: no-repeat;
-    
+
 }
 
-.main-container > .login,
-.main-container > .hero-body{
+.main-container>.login,
+.main-container>.hero-body {
     height: auto;
     width: 100%;
     max-width: 400px;
     min-width: 300px;
 }
 
-.is-photo{
+.is-photo {
     max-width: 300px;
     height: auto;
     margin: 0 auto;
 }
 
-.text-condensedLight{ font-family: "RobotoCondensedLight"; }
-.tittles{ font-family: "OswaldLight"; }
-.full-width{
+.text-condensedLight {
+    font-family: "RobotoCondensedLight";
+}
+
+.tittles {
+    font-family: "OswaldLight";
+}
+
+.full-width {
     margin: 0;
     padding: 0;
     width: 100%;
     box-sizing: border-box;
 }
-.list-unstyle{
+
+.list-unstyle {
     margin: 0;
     padding: 0;
     list-style: none;
     box-sizing: border-box;
 }
-.img-responsive{
+
+.img-responsive {
     width: 100%;
     height: auto;
 }
-.divider-menu-h{
+
+.divider-menu-h {
     height: 0 !important;
     border-top: 1px solid #E1E1E1;
     width: 92% !important;
     margin: 0 auto !important;
 }
 
-.page-container{
+.page-container {
     height: 100%;
     width: 100%;
     margin: 0;
@@ -99,32 +111,38 @@ body,html{
 }
 
 /*  Scrolls */
-.scroll::-webkit-scrollbar{
+.scroll::-webkit-scrollbar {
     width: 8px;
 }
-.scroll::-webkit-scrollbar-thumb{
-    background: rgba(102,107,122,1);
+
+.scroll::-webkit-scrollbar-thumb {
+    background: rgba(102, 107, 122, 1);
 }
+
 .scroll::-webkit-scrollbar-thumb:active,
-.scroll::-webkit-scrollbar-thumb:hover{
-    background: rgba(102,107,122,1);
-} 
-.scroll::-webkit-scrollbar-track{
+.scroll::-webkit-scrollbar-thumb:hover {
+    background: rgba(102, 107, 122, 1);
+}
+
+.scroll::-webkit-scrollbar-track {
     background: rgba(29, 30, 34, 1);
 }
-.scroll::-webkit-scrollbar-track:hover, 
-.scroll::-webkit-scrollbar-track:active{
+
+.scroll::-webkit-scrollbar-track:hover,
+.scroll::-webkit-scrollbar-track:active {
     background: rgba(29, 30, 34, 1);
 }
+
 /*=============Estilos barra superior*/
-.navBar{
+.navBar {
     background-color: #1dc6cc;
     height: 45px;
     color: #fff;
     position: relative;
     margin-bottom: 30px;
 }
-.navBar-options{
+
+.navBar-options {
     line-height: 45px;
     height: 45px;
     padding: 0;
@@ -132,14 +150,16 @@ body,html{
     display: flex;
     justify-content: space-between;
 }
+
 .navBar-options .fa-exchange-alt,
-.navBar-options-list{
+.navBar-options-list {
     line-height: 45px;
     height: 45px;
     margin: 0;
     padding: 0;
 }
-.navBar-options .fa-exchange-alt{
+
+.navBar-options .fa-exchange-alt {
     width: 40px;
     left: 0;
     font-size: 23px;
@@ -149,17 +169,21 @@ body,html{
     outline: none;
     margin-left: 9px;
 }
-.navBar-options-list{
+
+.navBar-options-list {
     right: 9px;
 }
-.navBar-options-list .noLink{
+
+.navBar-options-list .noLink {
     cursor: inherit;
 }
-.navBar-options-list ul{
+
+.navBar-options-list ul {
     height: 45px;
     display: flex;
 }
-.navBar-options-list ul li{
+
+.navBar-options-list ul li {
     height: 45px;
     line-height: 45px;
     cursor: pointer;
@@ -167,9 +191,13 @@ body,html{
     font-size: 21px;
     user-select: none;
 }
-.navBar-options-list ul li{ outline: none; }
+
+.navBar-options-list ul li {
+    outline: none;
+}
+
 .navBar-options-list ul li a,
-.navBar-options-list ul li img{
+.navBar-options-list ul li img {
     margin: 0;
     padding: 0;
     padding-top: 0;
@@ -177,7 +205,8 @@ body,html{
     box-sizing: border-box;
     color: #FFF;
 }
-.navBar-options-list ul li img{
+
+.navBar-options-list ul li img {
     border: 1px solid #E1E1E1;
     border-radius: 50%;
     width: 39px;
@@ -189,31 +218,36 @@ body,html{
 /*=============Estilos en comun navegacion lateral y contenido pagina*/
 .navLateral,
 .pageContent,
-.navLateral-body{
+.navLateral-body {
     height: 100%;
 }
+
 .navLateral,
-.pageContent{
+.pageContent {
     overflow-y: auto;
 }
+
 /*=============Estilos navegacion lateral*/
-.navLateral{
+.navLateral {
     width: 300px;
     border-right: 1px solid #E1E1E1;
     transition: all .3s ease-in-out;
     position: relative;
 }
-.navLateral-change{
+
+.navLateral-change {
     pointer-events: none;
     opacity: 0;
     width: 0;
     border-right: none;
 }
-.navLateral-body{
+
+.navLateral-body {
     background-color: #fff;
     position: relative;
 }
-.navLateral-body-logo{
+
+.navLateral-body-logo {
     height: 45px;
     line-height: 45px;
     color: #fff;
@@ -221,8 +255,9 @@ body,html{
     font-size: 25px;
     background-color: #1dc6cc;
 }
+
 .navLateral-body-cl,
-.navLateral-body-cr{
+.navLateral-body-cr {
     box-sizing: border-box;
     height: 77px;
     float: left;
@@ -230,50 +265,60 @@ body,html{
     padding: 0;
     position: relative;
 }
-.navLateral-body-cl{
+
+.navLateral-body-cl {
     width: 30%;
 }
-.navLateral-body-cl img{
+
+.navLateral-body-cl img {
     width: 57px;
     height: 57px;
     margin: 0 auto;
     display: block;
     margin-top: 10px;
 }
-.navLateral-body-cr{
+
+.navLateral-body-cr {
     width: 70%;
     font-family: "RobotoCondensedLight";
 }
-.navLateral-body-tittle-menu{
+
+.navLateral-body-tittle-menu {
     height: 70px;
-    line-height: 70px; 
-    font-size:20px; 
+    line-height: 70px;
+    font-size: 20px;
     background-color: #F5F5F5;
     text-align: center;
 }
+
 .menu-principal li,
-.menu-principal li a{
+.menu-principal li a {
     display: block;
 }
-.menu-principal li a{
+
+.menu-principal li a {
     height: 45px;
     color: #333;
     position: relative;
     transition: all .3s ease-in-out;
 }
-.menu-principal li a:hover{
+
+.menu-principal li a:hover {
     color: #1dc6cc;
 }
+
 .menu-principal li a div.navLateral-body-cl,
-.menu-principal li a div.navLateral-body-cr{
+.menu-principal li a div.navLateral-body-cr {
     height: 45px;
     line-height: 45px;
 }
-.menu-principal li a div.navLateral-body-cl{
+
+.menu-principal li a div.navLateral-body-cl {
     text-align: center;
     font-size: 20px;
 }
-.btn-subMenu span.fa-chevron-down{
+
+.btn-subMenu span.fa-chevron-down {
     position: absolute;
     top: 0;
     right: 7px;
@@ -282,74 +327,100 @@ body,html{
     font-size: 19px;
     transition: all .3s ease-in-out;
 }
-.btn-subMenu + .sub-menu-options{
+
+.btn-subMenu+.sub-menu-options {
     transition: all .3s ease-in-out;
 }
-.sub-menu-options{
+
+.sub-menu-options {
     height: 0;
     background-color: #F5F5F5;
     overflow-y: hidden;
     transition: all .3s ease-in-out;
 }
-.sub-menu-options li a{ border-left: 4px solid transparent; }
-.sub-menu-options li a:hover{ border-left: 4px solid #1dc6cc; }
-.btn-subMenu-show{
+
+.sub-menu-options li a {
+    border-left: 4px solid transparent;
+}
+
+.sub-menu-options li a:hover {
+    border-left: 4px solid #1dc6cc;
+}
+
+.btn-subMenu-show {
     background-color: rgba(0, 0, 0, 0.1);
 }
+
 .btn-subMenu-show .navLateral-body-cl,
-.btn-subMenu-show .navLateral-body-cr{
+.btn-subMenu-show .navLateral-body-cr {
     color: #1dc6cc;
 }
-.btn-subMenu-show + .sub-menu-options{
+
+.btn-subMenu-show+.sub-menu-options {
     height: auto;
     overflow-y: auto;
     background-color: rgba(0, 0, 0, 0.1);
 }
 
-.btn-subMenu-show span.fa-chevron-down{
+.btn-subMenu-show span.fa-chevron-down {
     transform: rotate(180deg);
 }
 
+#reader {
+    width: 100%;
+    min-height: 300px;
+}
+
+#btnEscanear {
+    height: 40px;
+}
+
 /*=============Estilos contenido pagina*/
-.pageContent{
+.pageContent {
     width: calc(100% - 300px);
     background-color: #fff;
     transition: all .3s ease-in-out;
 }
-.pageContent-change{
+
+.pageContent-change {
     width: 100%;
 }
+
 /*=============Estilos detalle de venta*/
-.sale-details{
+.sale-details {
     display: flex;
     justify-content: space-between;
     transition: all .3s ease-in-out;
     padding: 5px;
 }
-.sale-details:hover{
+
+.sale-details:hover {
     background-color: rgba(0, 0, 0, 0.07);
 }
 
 /*=====================================================
                     Media  Queries
 ======================================================*/
-@media (max-width: 750px){
-    .navLateral{
+@media (max-width: 750px) {
+    .navLateral {
         pointer-events: none;
         opacity: 0;
         width: 0;
         border-right: none;
     }
-    .navLateral-change{
+
+    .navLateral-change {
         width: 300px;
         pointer-events: auto;
         opacity: 1;
         border-right: 1px solid #bcbcbc;
     }
-    .pageContent{
+
+    .pageContent {
         width: 100%;
     }
-    .pageContent-change{
-       width: calc(100% - 300px);
+
+    .pageContent-change {
+        width: calc(100% - 300px);
     }
 }
