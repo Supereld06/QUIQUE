@@ -1,19 +1,19 @@
 <section class="full-width navLateral scroll" id="navLateral">
 	<div class="full-width navLateral-body">
 		<div class="full-width navLateral-body-logo has-text-centered tittles is-uppercase">
-		<?php
-		echo '<img class="" style="height: 50px"  src="'.APP_URL.'app/views/img/logoquique.png">';
-		?>
+			<?php
+			echo '<img class="" style="height: 50px"  src="' . APP_URL . 'app/views/img/logoquique.png">';
+			?>
 		</div>
 		<figure class="full-width" style="height: 77px;">
 			<div class="navLateral-body-cl">
 				<?php
-                    if(is_file("./app/views/fotos/".$_SESSION['foto'])){
-                        echo '<img class="is-rounded img-responsive" src="'.APP_URL.'app/views/fotos/'.$_SESSION['foto'].'">';
-					}else{
-                        echo '<img class="is-rounded img-responsive" src="'.APP_URL.'app/views/fotos/default.png">';
-                    }
-                ?>
+				if (is_file("./app/views/fotos/" . $_SESSION['foto'])) {
+					echo '<img class="is-rounded img-responsive" src="' . APP_URL . 'app/views/fotos/' . $_SESSION['foto'] . '">';
+				} else {
+					echo '<img class="is-rounded img-responsive" src="' . APP_URL . 'app/views/fotos/default.png">';
+				}
+				?>
 			</div>
 			<figcaption class="navLateral-body-cr">
 				<span>
@@ -283,48 +283,101 @@
 				<li class="full-width divider-menu-h"></li>
 
 				<li class="full-width">
+
+					<!-- BOTÓN PARA ABRIR/CERRAR SUBMENÚ -->
 					<a href="#" class="full-width btn-subMenu">
+
 						<div class="navLateral-body-cl">
-							<i class="fas fa-hand-holding-usd fa-fw"></i>
+							<i class="fas fa-shopping-cart fa-fw"></i>
 						</div>
-					<div class="navLateral-body-cr">
-						COMPRAS
+
+						<div class="navLateral-body-cr">
+							COMPRAS
 						</div>
-							<span class="fas fa-chevron-down"></span>
+
+						<span class="fas fa-chevron-down"></span>
+
 					</a>
-				<ul class="full-width menu-principal sub-menu-options">
+
+
+					<!-- SUBMENÚ -->
+					<ul class="full-width menu-principal sub-menu-options">
+
+						<!-- NUEVA COMPRA -->
 						<li class="full-width">
-							<a href="" class="full-width">
+
+							<a
+								href="<?php echo APP_URL; ?>purchaseNew/"
+								class="full-width">
+
 								<div class="navLateral-body-cl">
-									<i class="fas fa-hand-holding-usd fa-fw"></i>
+
+									<i class="fas fa-cart-plus fa-fw"></i>
+
 								</div>
+
 								<div class="navLateral-body-cr">
+
 									Nueva Compra
+
 								</div>
+
 							</a>
+
 						</li>
-					<li class="full-width">
-							<a href="" class="full-width">
+
+
+						<!-- LISTA DE COMPRAS -->
+						<li class="full-width">
+
+							<a
+								href="<?php echo APP_URL; ?>purchaseList/"
+								class="full-width">
+
 								<div class="navLateral-body-cl">
+
 									<i class="fas fa-clipboard-list fa-fw"></i>
+
 								</div>
+
 								<div class="navLateral-body-cr">
+
 									Lista de Compras
+
 								</div>
+
 							</a>
-							</li>
-									<li class="full-width">
-										<a href="" class="full-width">
-									<div class="navLateral-body-cl">
-										<i class="fas fa-search-dollar fa-fw"></i>
-									</div>
-									<div class="navLateral-body-cr">
-										Buscar Compra
-									</div>
-							</a>
+
 						</li>
+
+
+						<!-- BUSCAR COMPRA -->
+						<li class="full-width">
+
+							<a
+								href="<?php echo APP_URL; ?>purchaseSearch/"
+								class="full-width">
+
+								<div class="navLateral-body-cl">
+
+									<i class="fas fa-search-dollar fa-fw"></i>
+
+								</div>
+
+								<div class="navLateral-body-cr">
+
+									Buscar Compra
+
+								</div>
+
+							</a>
+
+						</li>
+
 					</ul>
+
 				</li>
+
 				<!-- FIN MENU COMPRAS -->
 
 
@@ -402,7 +455,7 @@
 							</a>
 						</li>
 						<li class="full-width">
-							<a href="<?php echo APP_URL."userUpdate/".$_SESSION['id']."/"; ?>" class="full-width">
+							<a href="<?php echo APP_URL . "userUpdate/" . $_SESSION['id'] . "/"; ?>" class="full-width">
 								<div class="navLateral-body-cl">
 									<i class="fas fa-user-tie fa-fw"></i>
 								</div>
@@ -412,7 +465,7 @@
 							</a>
 						</li>
 						<li class="full-width">
-							<a href="<?php echo APP_URL."userPhoto/".$_SESSION['id']."/"; ?>" class="full-width">
+							<a href="<?php echo APP_URL . "userPhoto/" . $_SESSION['id'] . "/"; ?>" class="full-width">
 								<div class="navLateral-body-cl">
 									<i class="fas fa-camera"></i>
 								</div>
@@ -425,52 +478,52 @@
 				</li>
 				<!-- FIN MENU CONFIGURACIONES -->
 
-					<!--  REPORTES -->
+				<!--  REPORTES -->
 				<li class="full-width divider-menu-h"></li>
 
-<li class="full-width">
-	<a href="#" class="full-width btn-subMenu">
-		<div class="navLateral-body-cl">
-			<i class="fas fa-pencil-alt fa-fw"></i> 
-		</div>
-		<div class="navLateral-body-cr">
-			REPORTES
-		</div>
-		<span class="fas fa-chevron-down"></span>
-	</a>
-	<ul class="full-width menu-principal sub-menu-options">
-		<li class="full-width">
-			<a href="<?php echo APP_URL; ?>new-view/" class="full-width">
-				<div class="navLateral-body-cl">
-					<i class="fas fa-hand-holding-usd fa-fw"></i>
-				</div>
-				<div class="navLateral-body-cr">
-					Inventario de productos
-				</div>
-			</a>
-		</li>
-		<li class="full-width">
-			<a href="<?php echo APP_URL; ?>new-view/" class="full-width">
-				<div class="navLateral-body-cl">
-					<i class="fas fa-clipboard-list fa-fw"></i>
-				</div>
-				<div class="navLateral-body-cr">
-					Stocks minimos
-				</div>
-			</a>
-		</li>
-		<li class="full-width">
-			<a href="<?php echo APP_URL; ?>new-view/" class="full-width">
-				<div class="navLateral-body-cl">
-					<i class="fas fa-search-dollar fa-fw"></i>
-				</div>
-				<div class="navLateral-body-cr">
-					Kardexs
-				</div>
-			</a>
-		</li>
-	</ul>
-</li>
+				<li class="full-width">
+					<a href="#" class="full-width btn-subMenu">
+						<div class="navLateral-body-cl">
+							<i class="fas fa-pencil-alt fa-fw"></i>
+						</div>
+						<div class="navLateral-body-cr">
+							REPORTES
+						</div>
+						<span class="fas fa-chevron-down"></span>
+					</a>
+					<ul class="full-width menu-principal sub-menu-options">
+						<li class="full-width">
+							<a href="<?php echo APP_URL; ?>new-view/" class="full-width">
+								<div class="navLateral-body-cl">
+									<i class="fas fa-hand-holding-usd fa-fw"></i>
+								</div>
+								<div class="navLateral-body-cr">
+									Inventario de productos
+								</div>
+							</a>
+						</li>
+						<li class="full-width">
+							<a href="<?php echo APP_URL; ?>new-view/" class="full-width">
+								<div class="navLateral-body-cl">
+									<i class="fas fa-clipboard-list fa-fw"></i>
+								</div>
+								<div class="navLateral-body-cr">
+									Stocks minimos
+								</div>
+							</a>
+						</li>
+						<li class="full-width">
+							<a href="<?php echo APP_URL; ?>new-view/" class="full-width">
+								<div class="navLateral-body-cl">
+									<i class="fas fa-search-dollar fa-fw"></i>
+								</div>
+								<div class="navLateral-body-cr">
+									Kardexs
+								</div>
+							</a>
+						</li>
+					</ul>
+				</li>
 				<!--  -->
 
 
@@ -479,7 +532,7 @@
 				<li class="full-width divider-menu-h"></li>
 
 				<li class="full-width mt-5">
-					<a href="<?php echo APP_URL."logOut/"; ?>" class="full-width btn-exit" >
+					<a href="<?php echo APP_URL . "logOut/"; ?>" class="full-width btn-exit">
 						<div class="navLateral-body-cl">
 							<i class="fas fa-power-off"></i>
 						</div>
