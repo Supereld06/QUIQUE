@@ -20,16 +20,10 @@ $insCompra = new purchaseController();
 
 <div class="container pb-6 pt-6">
 
-    <form
-        class="FormularioAjax"
-        action="<?php echo APP_URL; ?>app/ajax/compraAjax.php"
-        method="POST"
+    <form class="FormularioAjax" action="<?php echo APP_URL; ?>app/ajax/compraAjax.php" method="POST"
         autocomplete="off">
 
-        <input
-            type="hidden"
-            name="modulo_compra"
-            value="registrar_compra">
+        <input type="hidden" name="modulo_compra" value="registrar_compra">
 
 
         <!--=====================================
@@ -50,20 +44,14 @@ $insCompra = new purchaseController();
 
                         <div class="control is-expanded">
 
-                            <input
-                                type="text"
-                                class="input"
-                                id="buscar_codigo"
+                            <input type="text" class="input" id="buscar_codigo"
                                 placeholder="Código, nombre, marca o modelo">
 
                         </div>
 
                         <div class="control">
 
-                            <button
-                                type="button"
-                                class="button is-info"
-                                id="btnBuscarProducto">
+                            <button type="button" class="button is-info" id="btnBuscarProducto">
 
                                 <i class="fas fa-search"></i>
 
@@ -107,20 +95,14 @@ $insCompra = new purchaseController();
 
                         <div class="control is-expanded">
 
-                            <input
-                                type="text"
-                                class="input"
-                                id="producto_codigo"
+                            <input type="text" class="input" id="producto_codigo"
                                 placeholder="Escanee o introduzca el código">
 
                         </div>
 
                         <div class="control">
 
-                            <button
-                                type="button"
-                                class="button is-info"
-                                id="btnAgregarProducto">
+                            <button type="button" class="button is-info" id="btnAgregarProducto">
 
                                 <i class="fas fa-plus"></i>
                                 &nbsp; Agregar
@@ -373,15 +355,8 @@ $insCompra = new purchaseController();
                         Monto pagado
                     </label>
 
-                    <input
-                        type="number"
-                        step="0.01"
-                        min="0"
-                        class="input"
-                        name="compra_pagado"
-                        id="compra_pagado"
-                        value="0.00"
-                        required>
+                    <input type="number" step="0.01" min="0" class="input" name="compra_pagado" id="compra_pagado"
+                        value="0.00" required>
 
                 </div>
 
@@ -396,12 +371,7 @@ $insCompra = new purchaseController();
                         Cambio
                     </label>
 
-                    <input
-                        type="text"
-                        class="input"
-                        id="compra_cambio"
-                        value="0.00"
-                        readonly>
+                    <input type="text" class="input" id="compra_cambio" value="0.00" readonly>
 
                 </div>
 
@@ -416,9 +386,7 @@ $insCompra = new purchaseController();
 
         <p class="has-text-centered">
 
-            <button
-                type="reset"
-                class="button is-link is-light is-rounded">
+            <button type="button" class="button is-link is-light is-rounded" id="btnLimpiarCompra">
 
                 <i class="fas fa-paint-roller"></i>
 
@@ -429,9 +397,7 @@ $insCompra = new purchaseController();
             </button>
 
 
-            <button
-                type="submit"
-                class="button is-info is-rounded">
+            <button type="submit" class="button is-info is-rounded">
 
                 <i class="far fa-save"></i>
 
@@ -460,7 +426,7 @@ BUSCAR PRODUCTO
 
     if (btnBuscarProducto) {
 
-        btnBuscarProducto.addEventListener("click", function() {
+        btnBuscarProducto.addEventListener("click", function () {
 
             let buscar_codigo =
                 document.getElementById("buscar_codigo").value.trim();
@@ -497,14 +463,14 @@ BUSCAR PRODUCTO
 
 
             fetch(
-                    "<?php echo APP_URL; ?>app/ajax/compraAjax.php", {
+                "<?php echo APP_URL; ?>app/ajax/compraAjax.php", {
 
-                        method: "POST",
+                method: "POST",
 
-                        body: datos
+                body: datos
 
-                    }
-                )
+            }
+            )
 
                 .then(respuesta => respuesta.text())
 
@@ -531,7 +497,7 @@ BUSCAR PRODUCTO
 
     if (btnAgregarProducto) {
 
-        btnAgregarProducto.addEventListener("click", function() {
+        btnAgregarProducto.addEventListener("click", function () {
 
             let codigo =
                 document.getElementById(
@@ -570,14 +536,14 @@ BUSCAR PRODUCTO
 
 
             fetch(
-                    "<?php echo APP_URL; ?>app/ajax/compraAjax.php", {
+                "<?php echo APP_URL; ?>app/ajax/compraAjax.php", {
 
-                        method: "POST",
+                method: "POST",
 
-                        body: datos
+                body: datos
 
-                    }
-                )
+            }
+            )
 
                 .then(respuesta => respuesta.json())
 
@@ -638,14 +604,14 @@ BUSCAR PRODUCTO
 
 
         fetch(
-                "<?php echo APP_URL; ?>app/ajax/compraAjax.php", {
+            "<?php echo APP_URL; ?>app/ajax/compraAjax.php", {
 
-                    method: "POST",
+            method: "POST",
 
-                    body: datos
+            body: datos
 
-                }
-            )
+        }
+        )
 
             .then(respuesta => respuesta.json())
 
@@ -696,14 +662,14 @@ BUSCAR PRODUCTO
 
 
                 fetch(
-                        "<?php echo APP_URL; ?>app/ajax/compraAjax.php", {
+                    "<?php echo APP_URL; ?>app/ajax/compraAjax.php", {
 
-                            method: "POST",
+                    method: "POST",
 
-                            body: datos
+                    body: datos
 
-                        }
-                    )
+                }
+                )
 
                     .then(respuesta => respuesta.json())
 
@@ -730,7 +696,7 @@ BUSCAR PRODUCTO
 
     if (compraPagado) {
 
-        compraPagado.addEventListener("input", function() {
+        compraPagado.addEventListener("input", function () {
 
             let total =
                 <?php echo $total_compra; ?>;
@@ -751,9 +717,61 @@ BUSCAR PRODUCTO
 
 
             document.getElementById(
-                    "compra_cambio"
-                ).value =
+                "compra_cambio"
+            ).value =
                 cambio.toFixed(2);
+
+        });
+
+    }
+
+
+
+    /*=============================================
+LIMPIAR COMPRA
+=============================================*/
+
+    const btnLimpiarCompra = document.getElementById("btnLimpiarCompra");
+
+    if (btnLimpiarCompra) {
+
+        btnLimpiarCompra.addEventListener("click", function () {
+
+            Swal.fire({
+                title: "¿Limpiar compra?",
+                text: "Se eliminarán todos los productos agregados.",
+                icon: "warning",
+                showCancelButton: true,
+                confirmButtonText: "Sí, limpiar",
+                cancelButtonText: "Cancelar"
+            }).then((result) => {
+
+                if (result.isConfirmed) {
+
+                    let datos = new FormData();
+
+                    datos.append(
+                        "modulo_compra",
+                        "limpiar_compra"
+                    );
+
+                    fetch(
+                        "<?php echo APP_URL; ?>app/ajax/compraAjax.php",
+                        {
+                            method: "POST",
+                            body: datos
+                        }
+                    )
+                        .then(respuesta => respuesta.json())
+                        .then(respuesta => {
+
+                            alertas_ajax(respuesta);
+
+                        });
+
+                }
+
+            });
 
         });
 
