@@ -429,14 +429,14 @@ class purchaseController extends mainModel
 
 
     /*=============================================
-   REGISTRAR COMPRA
-   =============================================*/
+ REGISTRAR COMPRA
+ =============================================*/
 
     public function registrarCompraControlador()
     {
 
         /*=============================================
-        VERIFICAR CARRITO
+        VALIDAR CARRITO
         =============================================*/
 
         if (
@@ -446,18 +446,64 @@ class purchaseController extends mainModel
         ) {
 
             return json_encode([
-
                 "tipo" => "simple",
-
                 "titulo" => "Compra vacía",
-
                 "texto" => "Debes agregar al menos un producto.",
-
                 "icono" => "error"
-
             ]);
 
         }
+
+
+        /*=============================================
+        VALIDAR CAJA
+        =============================================*/
+
+        $caja_id = $this->limpiarCadena(
+            $_POST['caja_id'] ?? ''
+        );
+
+
+        if ($caja_id == "") {
+
+            return json_encode([
+                "tipo" => "simple",
+                "titulo" => "Caja requerida",
+                "texto" => "Debes seleccionar la caja que utilizarás para la compra.",
+                "icono" => "error"
+            ]);
+
+        }
+
+
+        /*=============================================
+        OBTENER CAJA
+        =============================================*/
+
+        $datos_caja = $this->ejecutarConsulta(
+            "SELECT *
+         FROM caja
+         WHERE caja_id = '$caja_id'
+         LIMIT 1"
+        );
+
+
+        if ($datos_caja->rowCount() <= 0) {
+
+            return json_encode([
+                "tipo" => "simple",
+                "titulo" => "Caja no encontrada",
+                "texto" => "La caja seleccionada no existe.",
+                "icono" => "error"
+            ]);
+
+        }
+
+
+        $caja = $datos_caja->fetch();
+
+
+        $caja_efectivo = (float) $caja['caja_efectivo'];
 
 
         /*=============================================
@@ -466,77 +512,116 @@ class purchaseController extends mainModel
 
         $total = 0;
 
+
         foreach (
             $_SESSION['datos_producto_compra']
             as $producto
         ) {
 
-            $total += (float) $producto['compra_detalle_total'];
+            $total +=
+                (float) $producto['compra_detalle_total'];
 
         }
+
+
+        $total = round($total, 2);
 
 
         /*=============================================
         MONTO PAGADO
         =============================================*/
 
-        if (!isset($_POST['compra_pagado'])) {
+        $compra_pagado = $this->limpiarCadena(
+            $_POST['compra_pagado'] ?? ''
+        );
+
+
+        if ($compra_pagado == "") {
 
             return json_encode([
-
                 "tipo" => "simple",
-
                 "titulo" => "Monto requerido",
-
                 "texto" => "Debes introducir el monto pagado.",
-
                 "icono" => "error"
-
             ]);
 
         }
 
 
-        $compra_pagado = $this->limpiarCadena(
-            $_POST['compra_pagado']
-        );
-
         $compra_pagado = (float) $compra_pagado;
 
 
+        if ($compra_pagado <= 0) {
+
+            return json_encode([
+                "tipo" => "simple",
+                "titulo" => "Monto incorrecto",
+                "texto" => "El monto pagado debe ser mayor que cero.",
+                "icono" => "error"
+            ]);
+
+        }
+
+
         /*=============================================
-        VALIDAR MONTO
+        VALIDAR PAGO
         =============================================*/
 
         if ($compra_pagado < $total) {
 
             return json_encode([
-
                 "tipo" => "simple",
-
                 "titulo" => "Monto insuficiente",
-
-                "texto" => "El monto pagado no puede ser menor al total de la compra.",
-
+                "texto" =>
+                    "El monto pagado (Bs. " .
+                    number_format($compra_pagado, 2) .
+                    ") no puede ser menor al total de la compra (Bs. " .
+                    number_format($total, 2) .
+                    ").",
                 "icono" => "error"
-
             ]);
 
         }
 
 
-        $compra_cambio = $compra_pagado - $total;
+        /*=============================================
+        VALIDAR SALDO DE CAJA
+        =============================================*/
+
+        if ($caja_efectivo < $total) {
+
+            return json_encode([
+                "tipo" => "simple",
+                "titulo" => "Saldo insuficiente",
+                "texto" =>
+                    "La caja seleccionada tiene Bs. " .
+                    number_format($caja_efectivo, 2) .
+                    " y necesitas Bs. " .
+                    number_format($compra_pagado, 2) .
+                    ".",
+                "icono" => "error"
+            ]);
+
+        }
 
 
         /*=============================================
-        GENERAR CÓDIGO DE COMPRA
+        CALCULAR CAMBIO
+        =============================================*/
+
+        $compra_cambio =
+            round($compra_pagado - $total, 2);
+
+
+        /*=============================================
+        GENERAR CÓDIGO
         =============================================*/
 
         $ultima_compra = $this->ejecutarConsulta(
             "SELECT compra_codigo
-        FROM compra
-        ORDER BY compra_id DESC
-        LIMIT 1"
+         FROM compra
+         ORDER BY compra_id DESC
+         LIMIT 1"
         );
 
 
@@ -559,19 +644,21 @@ class purchaseController extends mainModel
         }
 
 
-        $compra_codigo = "COMP-" . str_pad(
-            $numero,
-            6,
-            "0",
-            STR_PAD_LEFT
-        );
+        $compra_codigo = "COMP-" .
+            str_pad(
+                $numero,
+                6,
+                "0",
+                STR_PAD_LEFT
+            );
 
 
         /*=============================================
         USUARIO
         =============================================*/
 
-        $usuario_id = isset($_SESSION['usuario_id'])
+        $usuario_id =
+            isset($_SESSION['usuario_id'])
             ? $_SESSION['usuario_id']
             : 1;
 
@@ -583,73 +670,45 @@ class purchaseController extends mainModel
         $datos_compra = [
 
             [
-
                 "campo_nombre" => "compra_codigo",
-
                 "campo_marcador" => ":codigo",
-
                 "campo_valor" => $compra_codigo
-
             ],
 
             [
-
                 "campo_nombre" => "compra_fecha",
-
                 "campo_marcador" => ":fecha",
-
                 "campo_valor" => date("Y-m-d")
-
             ],
 
             [
-
                 "campo_nombre" => "compra_hora",
-
                 "campo_marcador" => ":hora",
-
                 "campo_valor" => date("H:i:s")
-
             ],
 
             [
-
                 "campo_nombre" => "compra_total",
-
                 "campo_marcador" => ":total",
-
                 "campo_valor" => $total
-
             ],
 
             [
-
                 "campo_nombre" => "compra_pagado",
-
                 "campo_marcador" => ":pagado",
-
                 "campo_valor" => $compra_pagado
-
             ],
 
             [
-
                 "campo_nombre" => "compra_cambio",
-
                 "campo_marcador" => ":cambio",
-
                 "campo_valor" => $compra_cambio
-
             ],
 
             [
-
                 "campo_nombre" => "usuario_id",
-
                 "campo_marcador" => ":usuario",
-
                 "campo_valor" => $usuario_id
-
             ]
 
         ];
@@ -664,22 +723,17 @@ class purchaseController extends mainModel
         if ($guardar_compra->rowCount() != 1) {
 
             return json_encode([
-
                 "tipo" => "simple",
-
                 "titulo" => "Error al registrar",
-
-                "texto" => "No se pudo registrar la cabecera de la compra.",
-
+                "texto" => "No se pudo registrar la compra.",
                 "icono" => "error"
-
             ]);
 
         }
 
 
         /*=============================================
-        GUARDAR DETALLES
+        GUARDAR DETALLES Y ACTUALIZAR PRODUCTOS
         =============================================*/
 
         foreach (
@@ -690,7 +744,6 @@ class purchaseController extends mainModel
             $datos_detalle = [
 
                 [
-
                     "campo_nombre" =>
                         "compra_detalle_cantidad",
 
@@ -698,12 +751,12 @@ class purchaseController extends mainModel
                         ":cantidad",
 
                     "campo_valor" =>
-                        $producto['compra_detalle_cantidad']
-
+                        $producto[
+                            'compra_detalle_cantidad'
+                        ]
                 ],
 
                 [
-
                     "campo_nombre" =>
                         "compra_detalle_precio_compra",
 
@@ -711,12 +764,12 @@ class purchaseController extends mainModel
                         ":precio_compra",
 
                     "campo_valor" =>
-                        $producto['compra_detalle_precio_compra']
-
+                        $producto[
+                            'compra_detalle_precio_compra'
+                        ]
                 ],
 
                 [
-
                     "campo_nombre" =>
                         "compra_detalle_precio_venta",
 
@@ -724,12 +777,12 @@ class purchaseController extends mainModel
                         ":precio_venta",
 
                     "campo_valor" =>
-                        $producto['compra_detalle_precio_venta']
-
+                        $producto[
+                            'compra_detalle_precio_venta'
+                        ]
                 ],
 
                 [
-
                     "campo_nombre" =>
                         "compra_detalle_total",
 
@@ -737,12 +790,12 @@ class purchaseController extends mainModel
                         ":total",
 
                     "campo_valor" =>
-                        $producto['compra_detalle_total']
-
+                        $producto[
+                            'compra_detalle_total'
+                        ]
                 ],
 
                 [
-
                     "campo_nombre" =>
                         "compra_detalle_descripcion",
 
@@ -750,12 +803,12 @@ class purchaseController extends mainModel
                         ":descripcion",
 
                     "campo_valor" =>
-                        $producto['compra_detalle_descripcion']
-
+                        $producto[
+                            'compra_detalle_descripcion'
+                        ]
                 ],
 
                 [
-
                     "campo_nombre" =>
                         "compra_codigo",
 
@@ -764,11 +817,9 @@ class purchaseController extends mainModel
 
                     "campo_valor" =>
                         $compra_codigo
-
                 ],
 
                 [
-
                     "campo_nombre" =>
                         "producto_id",
 
@@ -777,7 +828,6 @@ class purchaseController extends mainModel
 
                     "campo_valor" =>
                         $producto['producto_id']
-
                 ]
 
             ];
@@ -792,66 +842,95 @@ class purchaseController extends mainModel
             if ($guardar_detalle->rowCount() != 1) {
 
                 return json_encode([
-
                     "tipo" => "simple",
-
-                    "titulo" => "Error en detalle",
-
+                    "titulo" => "Error en el detalle",
                     "texto" =>
-                        "No se pudo guardar el producto "
-                        . $producto['producto_codigo'],
-
+                        "No se pudo guardar uno de los productos.",
                     "icono" => "error"
-
                 ]);
 
             }
 
 
             /*=============================================
-            AUMENTAR STOCK
+            ACTUALIZAR PRODUCTO
             =============================================*/
 
-            $producto_id = (int) $producto['producto_id'];
+            $producto_id =
+                (int) $producto['producto_id'];
 
-            $cantidad = (int) $producto['compra_detalle_cantidad'];
+            $cantidad =
+                (int) $producto['compra_detalle_cantidad'];
+
+            $precio_compra =
+                (float) $producto[
+                    'compra_detalle_precio_compra'
+                ];
+
+            $precio_venta =
+                (float) $producto[
+                    'compra_detalle_precio_venta'
+                ];
 
 
-            $actualizar_stock = $this->ejecutarConsulta(
+            $actualizar_producto =
+                $this->ejecutarConsulta(
 
-                "UPDATE producto
+                    "UPDATE producto
+                 SET
+                    producto_stock_total =
+                        producto_stock_total + $cantidad,
 
-             SET producto_stock =
-                 producto_stock + $cantidad
+                    producto_precio_compra =
+                        $precio_compra,
 
-             WHERE producto_id = $producto_id"
+                    producto_precio_venta =
+                        $precio_venta
 
-            );
+                 WHERE producto_id =
+                    $producto_id"
 
+                );
 
-            if ($actualizar_stock->rowCount() != 1) {
-
-                return json_encode([
-
-                    "tipo" => "simple",
-
-                    "titulo" => "Error de stock",
-
-                    "texto" =>
-                        "No se pudo actualizar el stock del producto "
-                        . $producto['producto_codigo'],
-
-                    "icono" => "error"
-
-                ]);
-
-            }
 
         }
 
 
         /*=============================================
-        LIMPIAR SESIÓN
+        DESCONTAR DINERO DE LA CAJA
+        =============================================*/
+
+        $nuevo_saldo = round(
+            $caja_efectivo - $total,
+            2
+        );
+
+
+        $actualizar_caja =
+            $this->ejecutarConsulta(
+
+                "UPDATE caja
+             SET caja_efectivo = $nuevo_saldo
+             WHERE caja_id = '$caja_id'"
+
+            );
+
+
+        if ($actualizar_caja->rowCount() <= 0) {
+
+            return json_encode([
+                "tipo" => "simple",
+                "titulo" => "Error de caja",
+                "texto" =>
+                    "La compra fue registrada, pero no se pudo actualizar el saldo de la caja.",
+                "icono" => "error"
+            ]);
+
+        }
+
+
+        /*=============================================
+        LIMPIAR CARRITO
         =============================================*/
 
         $_SESSION['datos_producto_compra'] = [];
@@ -870,16 +949,20 @@ class purchaseController extends mainModel
             "titulo" => "Compra registrada",
 
             "texto" =>
-                "La compra " .
-                $compra_codigo .
-                " fue registrada correctamente.",
+                "La compra " . $compra_codigo .
+                " fue registrada correctamente. " .
+                "Se descontaron Bs. " .
+                number_format(
+                    $compra_pagado,
+                    2
+                ) .
+                " de la caja.",
 
             "icono" => "success"
 
         ]);
 
     }
-
     /*=============================================
 LIMPIAR CARRITO DE COMPRA
 =============================================*/
@@ -904,4 +987,130 @@ LIMPIAR CARRITO DE COMPRA
         ]);
     }
 
+
+    /*=============================================
+ACTUALIZAR PRECIOS DEL PRODUCTO EN EL CARRITO
+=============================================*/
+
+    public function actualizarPreciosCompraControlador()
+    {
+
+        $producto_codigo = $this->limpiarCadena(
+            $_POST['producto_codigo'] ?? ''
+        );
+
+        $precio_compra = $this->limpiarCadena(
+            $_POST['precio_compra'] ?? ''
+        );
+
+        $precio_venta = $this->limpiarCadena(
+            $_POST['precio_venta'] ?? ''
+        );
+
+
+        if (
+            $producto_codigo == "" ||
+            $precio_compra == "" ||
+            $precio_venta == ""
+        ) {
+
+            return json_encode([
+                "tipo" => "simple",
+                "titulo" => "Datos incompletos",
+                "texto" => "Debes introducir el precio de compra y el precio de venta.",
+                "icono" => "error"
+            ]);
+
+        }
+
+
+        $precio_compra = (float) $precio_compra;
+        $precio_venta = (float) $precio_venta;
+
+
+        if ($precio_compra <= 0) {
+
+            return json_encode([
+                "tipo" => "simple",
+                "titulo" => "Precio incorrecto",
+                "texto" => "El precio de compra debe ser mayor que cero.",
+                "icono" => "error"
+            ]);
+
+        }
+
+
+        if ($precio_venta <= 0) {
+
+            return json_encode([
+                "tipo" => "simple",
+                "titulo" => "Precio incorrecto",
+                "texto" => "El precio de venta debe ser mayor que cero.",
+                "icono" => "error"
+            ]);
+
+        }
+
+
+        if (!isset($_SESSION['datos_producto_compra'][$producto_codigo])) {
+
+            return json_encode([
+                "tipo" => "simple",
+                "titulo" => "Producto no encontrado",
+                "texto" => "El producto no está agregado a la compra.",
+                "icono" => "error"
+            ]);
+
+        }
+
+
+        $_SESSION['datos_producto_compra'][$producto_codigo]
+        ['compra_detalle_precio_compra'] = $precio_compra;
+
+
+        $_SESSION['datos_producto_compra'][$producto_codigo]
+        ['compra_detalle_precio_venta'] = $precio_venta;
+
+
+        /*=============================================
+        RECALCULAR TOTAL
+        =============================================*/
+
+        $cantidad =
+            $_SESSION['datos_producto_compra'][$producto_codigo]
+            ['compra_detalle_cantidad'];
+
+
+        $_SESSION['datos_producto_compra'][$producto_codigo]
+        ['compra_detalle_total'] =
+            $cantidad * $precio_compra;
+
+
+        return json_encode([
+            "tipo" => "recargar",
+            "titulo" => "Precios actualizados",
+            "texto" => "Los precios fueron actualizados correctamente.",
+            "icono" => "success"
+        ]);
+
+    }
+
+    /*=============================================
+LISTAR CAJAS
+=============================================*/
+
+    public function listarCajasCompraControlador()
+    {
+        $consulta = $this->ejecutarConsulta("
+        SELECT 
+            caja_id,
+            caja_numero,
+            caja_nombre,
+            caja_efectivo
+        FROM caja
+        ORDER BY caja_numero ASC
+    ");
+
+        return $consulta->fetchAll();
+    }
 }

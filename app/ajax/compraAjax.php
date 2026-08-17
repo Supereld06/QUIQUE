@@ -77,6 +77,17 @@ if (isset($_POST['modulo_compra'])) {
         exit;
     }
 
+    /*=============================================
+ACTUALIZAR PRECIOS
+=============================================*/
+
+    if ($modulo == "actualizar_precios") {
+
+        echo $insCompra->actualizarPreciosCompraControlador();
+
+        exit;
+    }
+
 
     /*=============================================
     ELIMINAR PRODUCTO
